@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Experience {
+  id          String    @id @default(cuid())
+  company     String
+  role        String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?          // null = "Present"
+  bullets     String[]           // list of achievement/responsibility lines
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([order])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  tagline     String
+  description String
+  coverImage  String?
+  tags        String[]
+  liveUrl     String?
+  repoUrl     String?
+  featured    Boolean   @default(false)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([order])
+  @@index([slug])
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  name      String
+  category  String   // "Languages" | "Frontend" | "Backend" | "Database" | "Tools" | "Auth & Cloud"
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
+
+model Certification {
+  id            String    @id @default(cuid())
+  title         String
+  issuer        String
+  issueDate     DateTime
+  credentialUrl String?
+  order         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Settings {
+  id              String   @id @default("singleton")
+  heroHeadline    String   @default("I build digital products.")
+  heroSubtext     String   @default("")
+  bio             String   @default("")
+  email           String   @default("")
+  phone           String?
+  location        String   @default("Lahore, Pakistan")
+  availability    String   @default("Open for new projects")
+  githubUrl       String?
+  linkedinUrl     String?
+  twitterUrl      String?
+  instagramUrl    String?
+  updatedAt       DateTime @updatedAt
+}
