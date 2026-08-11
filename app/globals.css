@@ -7,21 +7,77 @@
   --color-muted: #8A8578;
   --color-border: #DEDACF;
 
-  --font-display: var(--font-display), sans-serif;
-  --font-body: var(--font-body), sans-serif;
-  --font-mono: var(--font-mono), monospace;
+  --font-display: var(--font-anton), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
 }
 
-@keyframes fade-up {
-  0% { opacity: 0; transform: translateY(12px); }
-  100% { opacity: 1; transform: translateY(0); }
+* {
+  border-color: var(--color-border);
 }
 
-.animate-fade-up {
-  animation: fade-up 0.6s ease-out forwards;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* Visible keyboard focus everywhere — accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Fluid type scale — continuous with viewport, no breakpoint jumps */
+.text-hero {
+  font-size: clamp(2.75rem, 4.5vw + 1.5rem, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.text-section-num {
+  font-size: clamp(2.5rem, 3vw + 1rem, 4rem);
+  line-height: 1;
+}
+
+.text-h2 {
+  font-size: clamp(1.5rem, 1.2vw + 1rem, 2.25rem);
+  line-height: 1.1;
+}
+
+.text-h3 {
+  font-size: clamp(1.1rem, 0.6vw + 0.9rem, 1.4rem);
+  line-height: 1.3;
+}
+
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Consistent section rhythm across all breakpoints, scales fluidly */
+.section-py {
+  padding-top: clamp(3rem, 6vw, 7rem);
+  padding-bottom: clamp(3rem, 6vw, 7rem);
+}
+
+.section-px {
+  padding-left: clamp(1.25rem, 4vw, 4rem);
+  padding-right: clamp(1.25rem, 4vw, 4rem);
 }
