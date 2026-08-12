@@ -18,7 +18,7 @@ export function About({ bio, location, email, availability }: AboutProps) {
       <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr_auto]">
         <div className="relative aspect-[4/5] w-full max-w-xs overflow-hidden border border-border bg-ink/5">
           <Image
-            src="/images/talha-portrait.jpg"
+            src="/images/talha-portrait.png"
             alt="M Talha Manzoor"
             fill
             sizes="(min-width: 1024px) 280px, 60vw"

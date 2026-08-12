@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 import { submitContactForm, type ContactFormState } from "@/lib/actions/contact";
 
 const initialState: ContactFormState = { status: "idle" };
 
 export function ContactForm() {
-  const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
+  const [state, formAction] = useFormState(submitContactForm, initialState);
 
   return (
     <form action={formAction} className="flex flex-col gap-6" noValidate>
@@ -18,18 +18,25 @@ export function ContactForm() {
       <Field name="message" label="Tell me about your project" as="textarea" error={state.errors?.message} />
 
       <div className="flex items-center gap-4">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="label-mono border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
-        >
-          {isPending ? "Sending…" : "Send message ↗"}
-        </button>
+        <SubmitButton />
         {state.status === "success" && (
           <p className="text-sm text-ink/70" role="status">{state.message}</p>
         )}
       </div>
     </form>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="label-mono border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
+    >
+      {pending ? "Sending…" : "Send message ↗"}
+    </button>
   );
 }
 
