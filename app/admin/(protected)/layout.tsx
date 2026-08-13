@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/admin/sidebar";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex bg-paper font-body text-ink">
       <Sidebar />
