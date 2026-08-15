@@ -12,7 +12,7 @@ export async function verifyCredentials(email: string, password: string) {
   const validHash = process.env.ADMIN_PASSWORD_HASH;
 
   if (!validEmail || !validHash) return false;
-  if (email !== validEmail) return false;
+  if (email.trim().toLowerCase() !== validEmail.trim().toLowerCase()) return false;
 
   try {
     if (validHash.startsWith("$2a$") || validHash.startsWith("$2b$") || validHash.startsWith("$2y$")) {
