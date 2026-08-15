@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 import type { ExperienceFormState } from "@/lib/actions/experience";
 
 type ExperienceFormProps = {
@@ -21,8 +21,21 @@ function toDateInput(d?: Date | null) {
   return new Date(d).toISOString().split("T")[0];
 }
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="label-mono self-start border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
+    >
+      {pending ? "Saving…" : "Save"}
+    </button>
+  );
+}
+
 export function ExperienceForm({ action, defaultValues }: ExperienceFormProps) {
-  const [state, formAction, isPending] = useActionState(action, {});
+  const [state, formAction] = useFormState(action, {});
 
   return (
     <form action={formAction} className="flex max-w-xl flex-col gap-6">
@@ -70,13 +83,7 @@ export function ExperienceForm({ action, defaultValues }: ExperienceFormProps) {
         defaultValue={String(defaultValues?.order ?? 0)}
       />
 
-      <button
-        type="submit"
-        disabled={isPending}
-        className="label-mono self-start border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
-      >
-        {isPending ? "Saving…" : "Save"}
-      </button>
+      <SubmitButton />
     </form>
   );
 }
