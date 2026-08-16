@@ -3,19 +3,21 @@ import { Hero } from "@/components/public/hero";
 import { SelectedWork } from "@/components/public/selected-work";
 import { ExperienceTimeline } from "@/components/public/experience-timeline";
 import { SkillsGrid } from "@/components/public/skills-grid";
+import { Certifications } from "@/components/public/certifications";
 import { About } from "@/components/public/about";
 import { ContactSection } from "@/components/public/contact-section";
 import { Footer } from "@/components/public/footer";
-import { getExperience, getProjects, getSkillsByCategory, getSettings } from "@/lib/data";
+import { getExperience, getProjects, getSkillsByCategory, getSettings, getCertifications } from "@/lib/data";
 
 export const revalidate = 3600; // ISR: rebuild at most once an hour, plus on-demand via revalidatePath from Raqm
 
 export default async function HomePage() {
-  const [experience, projects, skills, settings] = await Promise.all([
+  const [experience, projects, skills, settings, certifications] = await Promise.all([
     getExperience(),
     getProjects(),
     getSkillsByCategory(),
-    getSettings()
+    getSettings(),
+    getCertifications()
   ]);
 
   return (
@@ -30,6 +32,7 @@ export default async function HomePage() {
         <SelectedWork projects={projects} />
         <ExperienceTimeline items={experience} />
         <SkillsGrid skills={skills} />
+        <Certifications items={certifications} />
         <About bio={settings.bio} location={settings.location} email={settings.email} availability={settings.availability} />
         <ContactSection
           email={settings.email}
