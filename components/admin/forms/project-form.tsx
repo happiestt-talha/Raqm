@@ -2,6 +2,7 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import type { ProjectFormState } from "@/lib/actions/projects";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 type ProjectFormProps = {
   action: (state: ProjectFormState, formData: FormData) => Promise<ProjectFormState>;
@@ -61,7 +62,7 @@ export function ProjectForm({ action, defaultValues }: ProjectFormProps) {
         {state.errors?.description && <p className="mt-1 text-xs text-accent">{state.errors.description}</p>}
       </div>
 
-      <TextField name="coverImage" label="Cover image URL" defaultValue={defaultValues?.coverImage ?? ""} error={state.errors?.coverImage} />
+      <ImageUpload name="coverImage" label="Cover image" defaultValue={defaultValues?.coverImage ?? ""} error={state.errors?.coverImage} />
       <TextField name="tags" label="Tags (comma-separated)" defaultValue={defaultValues?.tags?.join(", ")} />
 
       <div className="grid grid-cols-2 gap-6">
