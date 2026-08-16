@@ -19,6 +19,11 @@ export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
+  // Honeypot check — if this hidden field has a value, it's a bot
+  if (formData.get("website")) {
+    return { status: "success", message: "Message sent — I'll get back to you soon." };
+  }
+
   const parsed = contactSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),

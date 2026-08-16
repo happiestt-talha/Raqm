@@ -10,6 +10,16 @@ export function ContactForm() {
 
   return (
     <form action={formAction} className="flex flex-col gap-6" noValidate>
+      {/* Honeypot — invisible to real users, bots often auto-fill every field */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="absolute left-[-9999px]"
+        aria-hidden="true"
+      />
+
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <Field name="name" label="Your name" error={state.errors?.name} />
         <Field name="email" label="Your email" type="email" error={state.errors?.email} />
