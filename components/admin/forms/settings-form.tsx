@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 import { updateSettings, type SettingsFormState } from "@/lib/actions/settings";
 
 type Settings = {
@@ -19,8 +19,21 @@ type Settings = {
 
 const initialState: SettingsFormState = {};
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="label-mono self-start border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
+    >
+      {pending ? "Saving…" : "Save changes"}
+    </button>
+  );
+}
+
 export function SettingsForm({ settings }: { settings: Settings }) {
-  const [state, formAction, isPending] = useActionState(updateSettings, initialState);
+  const [state, formAction] = useFormState(updateSettings, initialState);
 
   return (
     <form action={formAction} className="flex max-w-2xl flex-col gap-10">
@@ -69,13 +82,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
       </fieldset>
 
       <div className="flex items-center gap-4">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="label-mono self-start border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:bg-accent hover:border-accent disabled:opacity-50"
-        >
-          {isPending ? "Saving…" : "Save changes"}
-        </button>
+        <SubmitButton />
         {state.success && (
           <p className="text-sm text-ink/70" role="status">Saved — live site updated.</p>
         )}
